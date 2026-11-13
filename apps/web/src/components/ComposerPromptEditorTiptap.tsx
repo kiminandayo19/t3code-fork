@@ -160,6 +160,8 @@ export interface ComposerPromptEditorProps {
   value: string;
   cursor: number;
   richTextEnabled?: boolean;
+  /** Turns a lone ``` (or ```lang) line into a code block as soon as it is typed, not on Enter. */
+  convertFenceOnType?: boolean;
   literalText?: boolean;
   contextRecords: ComposerDraftContextRecords;
   buildContextClipboardFragment?:
@@ -926,6 +928,7 @@ function ComposerPromptEditorTiptapInner(
     value,
     cursor,
     richTextEnabled,
+    convertFenceOnType = false,
     literalText = false,
     contextRecords,
     buildContextClipboardFragment,
@@ -1502,6 +1505,14 @@ function ComposerPromptEditorTiptapInner(
             return;
           }
         }
+        if (
+          convertFenceOnType &&
+          richText &&
+          transaction.docChanged &&
+          !isHistoryTransaction(transaction) &&
+          convertCodeFenceOnEnter(updated.state, (tr) => updated.view.dispatch(tr))
+        )
+          return;
         handleEditorChange(updated, transaction);
       },
       onSelectionUpdate: ({ editor: updated, transaction }) => {

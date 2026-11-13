@@ -1,0 +1,115 @@
+{
+  "type": "map",
+  "orientation": "isometric",
+  "width": 20,
+  "height": 20,
+  "tilewidth": 64,
+  "tileheight": 32,
+  "tilesets": [],
+  "layers": [
+    {
+      "type": "tilelayer",
+      "name": "ground",
+      "width": 20,
+      "height": 20,
+      "data": [
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2,
+        1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1,
+        1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2, 2, 2,
+        2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 3, 3, 3, 3, 3, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        2, 1, 3, 3, 3, 3, 3, 1, 2, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 2, 2, 2, 2,
+        2, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 3, 3, 3, 3, 3, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1,
+        3, 3, 3, 3, 3, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1,
+        1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 2, 4, 4, 4,
+        4, 4, 4, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 4, 4, 4, 4, 5, 5, 4, 2, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 2, 4, 4, 4, 4, 5, 5, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 4, 4, 4, 4, 4,
+        4, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+      ]
+    },
+    {
+      "type": "objectgroup",
+      "name": "buildings",
+      "objects": [
+        {
+          "name": "Central Command",
+          "type": "building",
+          "x": 9,
+          "y": 9,
+          "width": 3,
+          "height": 3,
+          "properties": [
+            { "name": "district", "value": "command" },
+            { "name": "sprites", "value": "b003,b116,b124,b125,b117,b123,b002,b001" }
+          ]
+        },
+        {
+          "name": "Engineering Office",
+          "type": "building",
+          "x": 2,
+          "y": 2,
+          "width": 3,
+          "height": 2,
+          "properties": [
+            { "name": "district", "value": "engineering" },
+            { "name": "sprites", "value": "b025,b026,b030,b036,b021,b014,b099,b106,b122" },
+            { "name": "roofs", "value": "b069" }
+          ]
+        },
+        {
+          "name": "Research Library",
+          "type": "building",
+          "x": 15,
+          "y": 2,
+          "width": 3,
+          "height": 2,
+          "properties": [
+            { "name": "district", "value": "research" },
+            { "name": "sprites", "value": "b022,b040,b046,b100,b101,b113,b114,b020" },
+            { "name": "roofs", "value": "b062" }
+          ]
+        },
+        {
+          "name": "Design Studio",
+          "type": "building",
+          "x": 2,
+          "y": 16,
+          "width": 3,
+          "height": 2,
+          "properties": [
+            { "name": "district", "value": "creative" },
+            { "name": "sprites", "value": "b004,b034,b115,b107,b108,b092,b093,b018" },
+            { "name": "roofs", "value": "b082" }
+          ]
+        },
+        {
+          "name": "Testing Lab",
+          "type": "building",
+          "x": 15,
+          "y": 16,
+          "width": 3,
+          "height": 2,
+          "properties": [
+            { "name": "district", "value": "testing" },
+            { "name": "sprites", "value": "b003,b009,b010,b116,b124,b125,b123,b034" },
+            { "name": "roofs", "value": "b081" }
+          ]
+        },
+        {
+          "name": "Garden Cafe",
+          "type": "building",
+          "x": 8,
+          "y": 16,
+          "width": 2,
+          "height": 2,
+          "properties": [
+            { "name": "district", "value": "social" },
+            { "name": "sprites", "value": "b004,b018,b020,b026,b113,b115" },
+            { "name": "roofs", "value": "b076" }
+          ]
+        }
+      ]
+    }
+  ]
+}

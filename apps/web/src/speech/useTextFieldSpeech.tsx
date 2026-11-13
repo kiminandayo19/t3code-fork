@@ -20,6 +20,10 @@ export function useTextFieldSpeech(input: {
   readonly textareaRef: RefObject<HTMLTextAreaElement | null>;
   readonly onTextChange: (text: string) => void;
   readonly disabled?: boolean | undefined;
+  /** Answer the chord anywhere on the page, not only while the field has focus. */
+  readonly global?: boolean | undefined;
+  /** Show the mic before voice is configured; its first use opens the setup. */
+  readonly offerSetup?: boolean | undefined;
 }) {
   const latest = useRef(input);
   // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- publishes committed field callbacks to the asynchronous recording controller
@@ -32,7 +36,7 @@ export function useTextFieldSpeech(input: {
     projectId: input.projectId,
     ownerKey: input.ownerKey,
     disabled: input.disabled,
-    offerSetup: false,
+    offerSetup: input.offerSetup ?? false,
     readDraft: () => {
       const field = latest.current.textareaRef.current;
       const cursor = field?.selectionStart ?? latest.current.text.length;
@@ -57,7 +61,7 @@ export function useTextFieldSpeech(input: {
     disabled: input.disabled ?? false,
     terminalOpen: false,
     modelPickerOpen: false,
-    targetRef: input.textareaRef,
+    ...(input.global ? {} : { targetRef: input.textareaRef }),
   });
   return { ...speech, shortcutLabel };
 }

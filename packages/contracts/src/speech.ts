@@ -263,6 +263,12 @@ export const EnvironmentSpeechStatus = Schema.Union([
 ]);
 export type EnvironmentSpeechStatus = typeof EnvironmentSpeechStatus.Type;
 
+const SPEECH_SYNTHESIS_MAX_CHARS = 4_000;
+export const EnvironmentSpeechSynthesisRequest = Schema.Struct({
+  text: Schema.String.check(Schema.isMinLength(1), Schema.isMaxLength(SPEECH_SYNTHESIS_MAX_CHARS)),
+});
+export type EnvironmentSpeechSynthesisRequest = typeof EnvironmentSpeechSynthesisRequest.Type;
+
 export const EnvironmentSpeechTranscriptionResult = Schema.Struct({ text: Schema.String });
 
 export const EnvironmentSpeechAccelerationRequest = Schema.Struct({

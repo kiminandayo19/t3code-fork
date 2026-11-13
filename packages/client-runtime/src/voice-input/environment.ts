@@ -245,6 +245,17 @@ export const transcribeEnvironmentPcm = (
       }),
   });
 
+/** WAV audio of `text` from the environment's Piper; the first call may download the voice. */
+export const synthesizeEnvironmentSpeech = (prepared: PreparedConnection, text: string) =>
+  request({
+    group: "voice",
+    prepared,
+    method: "POST",
+    path: (urls) => urls.speak(),
+    timeoutMs: INFERENCE_OR_DOWNLOAD_TIMEOUT_MS,
+    run: ({ client, headers }) => client.speak({ headers, payload: { text } }),
+  });
+
 /** Sends the transcript and draft context to a provider on `prepared`; a separate opt-in. */
 export const postProcessEnvironmentTranscript = (
   prepared: PreparedConnection,

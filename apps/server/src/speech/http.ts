@@ -25,6 +25,7 @@ import {
 } from "../auth/http.ts";
 import * as SpeechPostProcessing from "./postProcessing.ts";
 import * as CloudSpeech from "./CloudSpeech.ts";
+import * as Piper from "./Piper.ts";
 import * as SpeechService from "./SpeechService.ts";
 
 const MAX_TRANSCRIBE_BODY_BYTES = SpeechService.MAX_SPEECH_BYTES + SPEECH_MAX_OPTIONS_BYTES + 4;
@@ -70,6 +71,7 @@ export const speechHttpApiLayer = HttpApiBuilder.group(
   Effect.fnUntraced(function* (handlers) {
     const speech = yield* SpeechService.SpeechService;
     const cloud = yield* CloudSpeech.CloudSpeech;
+    const piper = yield* Piper.PiperSpeech;
     const postProcessing = yield* SpeechPostProcessing.SpeechPostProcessing;
     const guard = Effect.fnUntraced(function* (
       endpoint: string,
@@ -218,6 +220,20 @@ export const speechHttpApiLayer = HttpApiBuilder.group(
             .transcribe(decoded.value.pcm, decoded.value.options)
             .pipe(mapSpeechError);
           return { text };
+        }),
+      )
+      .handle(
+        "speak",
+        Effect.fn("environment.voice.speak")(function* (args) {
+          yield* guard(args.endpoint.name);
+          return yield* piper.synthesize(args.payload.text).pipe(
+            Effect.catchTags({
+              PiperError: (error) =>
+                error.reason === "unsupported-platform"
+                  ? failEnvironmentInvalidRequest("speech_unavailable")
+                  : failEnvironmentInternal("internal_error", error),
+            }),
+          );
         }),
       )
       .handle(
