@@ -72,6 +72,7 @@ import {
   PaletteIcon,
   RotateCcwIcon,
   SettingsIcon,
+  MapIcon,
   MonitorIcon,
   PinIcon,
   PinOffIcon,
@@ -1677,6 +1678,18 @@ function OpenCommandPaletteDialog(props: {
     shortcutCommand: "usage.open",
     run: async () => {
       await navigate({ to: "/usage" });
+    },
+  });
+
+  actionItems.push({
+    kind: "action",
+    value: "action:agentverse",
+    searchTerms: ["agentverse", "campus", "world", "agents", "map"],
+    title: "Open Agentverse",
+    shortcutCommand: "agentverse.open",
+    icon: <MapIcon className={ITEM_ICON_CLASS} />,
+    run: async () => {
+      await navigate({ to: "/agentverse" });
     },
   });
 

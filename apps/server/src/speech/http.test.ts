@@ -28,6 +28,7 @@ import * as HttpApiBuilder from "effect/http-api/HttpApiBuilder";
 import type * as NetAddress from "effect/net/NetAddress";
 import * as SpeechService from "./SpeechService.ts";
 import * as CloudSpeech from "./CloudSpeech.ts";
+import * as Piper from "./Piper.ts";
 import * as ServerSettings from "../serverSettings.ts";
 import * as TextGeneration from "../textGeneration/TextGeneration.ts";
 import * as ProviderRegistry from "../provider/ProviderRegistry.ts";
@@ -49,6 +50,9 @@ const principal = (...scopes: AuthEnvironmentScope[]) =>
 
 const dependencies = Layer.mergeAll(
   Layer.mock(CloudSpeech.CloudSpeech)({}),
+  Layer.mock(Piper.PiperSpeech)({
+    synthesize: (text) => Effect.succeed(new TextEncoder().encode(`RIFF:${text}`)),
+  }),
   Layer.mock(ProviderRegistry.ProviderRegistry)({ getProviders: Effect.succeed([]) }),
   Layer.mock(ServerSettings.ServerSettingsService)({
     getSettings: Effect.succeed(DEFAULT_SERVER_SETTINGS),
@@ -253,6 +257,19 @@ effectIt.effect(
         422,
       );
       expect(transcribe).toHaveBeenLastCalledWith("openrouter", "acme/transcribe-1");
+      const spoken = yield* Effect.promise(() =>
+        handler(
+          new Request("http://localhost/api/voice/speak", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ text: "hello" }),
+          }),
+          context,
+        ),
+      );
+      expect(spoken.status).toBe(200);
+      expect(spoken.headers.get("content-type")).toContain("audio/wav");
+      expect(yield* Effect.promise(() => spoken.text())).toBe("RIFF:hello");
       // Naming a path on the environment needs filesystem access, not only settings access.
       const link = yield* Effect.promise(() =>
         handler(

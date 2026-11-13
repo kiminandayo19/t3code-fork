@@ -1,4 +1,10 @@
-import { ArrowLeftIcon, ArrowRightIcon, ChartNoAxesColumnIcon, SettingsIcon } from "lucide-react";
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  ChartNoAxesColumnIcon,
+  MapIcon,
+  SettingsIcon,
+} from "lucide-react";
 import type { ReactNode } from "react";
 import { memo } from "react";
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
@@ -33,6 +39,7 @@ import {
 } from "../ui/sidebar";
 import { Tooltip, TooltipPopup, TooltipTrigger } from "../ui/tooltip";
 import { readPullRequestListPreferences } from "../pullRequest/pullRequestListPreferences";
+import { needsYouCountAtom } from "../../agentverse/liveThreads";
 import { isSidebarUtilityPage, useNavigateToMainApp } from "./mainAppLocation";
 import { SidebarThreadUndoNotice } from "./SidebarThreadUndoNotice";
 import { SidebarProviderUpdatePill } from "./SidebarProviderUpdatePill";
@@ -250,6 +257,12 @@ const SidebarUtilityMenu = memo(function SidebarUtilityMenu() {
     void navigate({ to: "/usage" });
   };
 
+  const needsYou = useAtomValue(needsYouCountAtom);
+  const handleAgentverseClick = () => {
+    closeMobileSidebar();
+    void navigate({ to: "/agentverse" });
+  };
+
   const handleBackClick = () => {
     closeMobileSidebar();
     void navigateToMainApp();
@@ -282,6 +295,18 @@ const SidebarUtilityMenu = memo(function SidebarUtilityMenu() {
             icon={<ChartNoAxesColumnIcon />}
             label="Usage"
             onClick={handleUsageClick}
+          />
+          <SidebarUtilityItem
+            icon={
+              <span className="relative">
+                <MapIcon />
+                {needsYou > 0 && (
+                  <span className="absolute -top-1 -right-1 size-2 rounded-full bg-destructive" />
+                )}
+              </span>
+            }
+            label={needsYou > 0 ? `Agentverse (${needsYou} waiting for you)` : "Agentverse"}
+            onClick={handleAgentverseClick}
           />
         </>
       )}
